@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, target-densityDpi=device-dpi">
+<title>Accelerometer</title>
+</head>
+<body>
+
+<style>
+	* {
+		font-family: Helvetica;
+	}
+	p {
+		padding-bottom: 20px;
+	}
+</style>
+
+<h1>HTML</h1>
+<div id="accelerometer"></div>
+
+<h1>Flash</h1>
+<div id="flashContent">
+	
+	<!-- Replace this crap with SWF Object to do it properly -->
+	
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100" height="87" id="accelerometer" align="middle">
+		<param name="movie" value="accelerometer.swf" />
+		<param name="quality" value="high" />
+		<param name="bgcolor" value="#ffffff" />
+		<param name="play" value="true" />
+		<param name="loop" value="true" />
+		<param name="wmode" value="window" />
+		<param name="scale" value="showall" />
+		<param name="menu" value="true" />
+		<param name="devicefont" value="false" />
+		<param name="salign" value="" />
+		<param name="allowScriptAccess" value="sameDomain" />
+		<!--[if !IE]>-->
+		<object type="application/x-shockwave-flash" data="accelerometer.swf" width="100" height="87">
+			<param name="movie" value="accelerometer.swf" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="#ffffff" />
+			<param name="play" value="true" />
+			<param name="loop" value="true" />
+			<param name="wmode" value="window" />
+			<param name="scale" value="showall" />
+			<param name="menu" value="true" />
+			<param name="devicefont" value="false" />
+			<param name="salign" value="" />
+			<param name="allowScriptAccess" value="sameDomain" />
+		<!--<![endif]-->
+			<a href="http://www.adobe.com/go/getflash">
+				<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+			</a>
+		<!--[if !IE]>-->
+		</object>
+		<!--<![endif]-->
+	</object>
+</div>
+
+
+<script>
+
+var isSupported     = false;
+var hasShownMessage = false;
+
+
+// If DeviceMotion API is present (iOS 4.3+) then listen for it
+window.ondevicemotion = function(event) {
+	isSupported = true;
+	showAccelerometerData(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y, event.accelerationIncludingGravity.z);
+}
+
+// This method gets called from Flash
+function accelerometerHandler(x, y, z) {
+	// Devices that support the DeviceMotion API and Flash
+	// should ignore the Flash stuff
+	if(!isSupported) {
+		if(!hasShownMessage) {
+			alert('Using accelerometer data from Flash!');
+			hasShownMessage = true;
+		}
+		showAccelerometerData(x, y, z);
+	}
+}
+
+// Shows the accelerometer data in the HTML
+function showAccelerometerData(x, y, z) {
+	var div = document.getElementById('accelerometer');
+	var html = '';
+	html    += '<p>Accelerometer.x: ' + x + '</p>';
+	html    += '<p>Accelerometer.y: ' + y + '</p>';
+	html    += '<p>Accelerometer.z: ' + z + '</p>';
+	div.innerHTML = html;
+}
+
+</script>
+
+</body>
+</html>
